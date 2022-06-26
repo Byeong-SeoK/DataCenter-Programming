@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simpleweb-deployment
+  labels:
+    app: simpleweb
+spec:
+  selector:
+    matchLabels:
+      app: simpleweb
+  template:
+    metadata:
+      labels:
+        app: simpleweb
+    spec:
+      containers:
+      - image: qudtjr0409/simple_web:1.0
+        name: simple-web
+        ports:
+        - containerPort: 3000
+          name: simple-web
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anotherweb-deployment
+  labels:
+    app: anotherweb
+spec:
+  selector:
+    matchLabels:
+      app: anotherweb
+  template:
+    metadata:
+      labels:
+        app: anotherweb
+    spec:
+      containers:
+      - image: qudtjr0409/another_web:1.0
+        name: another-web
+        ports:
+        - containerPort: 4000
+          name: another-web
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simpleweb-deployment
+  labels:
+    app: simpleweb
+spec:
+  type: NodePort
+  ports:
+    - port: 3000
+  selector:
+    app: simpleweb
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: anotherweb-deployment
+  labels:
+    app: anotherweb
+spec:
+  type: NodePort
+  ports:
+    - port: 4000
+  selector:
+    app: anotherweb
